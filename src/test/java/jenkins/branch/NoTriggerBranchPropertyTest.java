@@ -194,7 +194,7 @@ public class NoTriggerBranchPropertyTest {
 
     private class TestSuppressionProject {
 
-        public static final int DONT_SUPPRESS_ANYTHING = -1;
+        public static final String DONT_SUPPRESS_ANYTHING = "dont-suppress-anything";
 
         private static final String REPOSITORY = "verify-suppression";
         private static final String BRANCH_NAME = "master";
@@ -202,14 +202,14 @@ public class NoTriggerBranchPropertyTest {
         private final MockSCMController controller;
         private final MultiBranchImpl project;
 
-        public TestSuppressionProject(MockSCMController controller, int strategyId) throws Exception {
+        public TestSuppressionProject(MockSCMController controller, String strategyId) throws Exception {
             this.controller = controller;
             controller.createRepository(REPOSITORY);
             project = r.jenkins.createProject(MultiBranchImpl.class, "verifySuppressionJob");
             SCMSource source = new MockSCMSource(controller, REPOSITORY, new MockSCMDiscoverBranches());
             BranchSource branchSource = new BranchSource(source);
             List<BranchProperty> branchProperties = new ArrayList<>();
-            if (strategyId != DONT_SUPPRESS_ANYTHING) {
+            if (!DONT_SUPPRESS_ANYTHING.equals(strategyId)) {
                 NoTriggerBranchProperty property = new NoTriggerBranchProperty();
                 property.setStrategyId(strategyId);
                 branchProperties.add(property);

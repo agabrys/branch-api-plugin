@@ -53,21 +53,21 @@ public class NoTriggerBranchProperty extends BranchProperty {
      *
      * @since 2.6.4
      */
-    public static final int ALL = 1;
+    public static final String ALL = "all";
     /**
      * Only builds triggered by {@link BranchIndexingCause} are suppressed.
      *
      * @since 2.6.4
      */
-    public static final int INDEXING = 2;
+    public static final String INDEXING = "indexing";
     /**
      * Only builds triggered by {@link BranchEventCause} are suppressed.
      *
      * @since 2.6.4
      */
-    public static final int EVENTS = 3;
+    public static final String EVENTS = "events";
 
-    private int strategyId = ALL;
+    private String strategyId = ALL;
 
     @DataBoundConstructor
     public NoTriggerBranchProperty() {}
@@ -78,12 +78,12 @@ public class NoTriggerBranchProperty extends BranchProperty {
      * @return the strategy id.
      * @since 2.6.4
      */
-    public int getStrategyId() {
+    public String getStrategyId() {
         return strategyId;
     }
 
     @DataBoundSetter
-    public void setStrategyId(int strategyId) {
+    public void setStrategyId(String strategyId) {
         this.strategyId = strategyId;
     }
 
@@ -104,9 +104,9 @@ public class NoTriggerBranchProperty extends BranchProperty {
         @Restricted(NoExternalUse.class)
         public ListBoxModel doFillStrategyIdItems() {
             ListBoxModel items = new ListBoxModel();
-            items.add(Messages.NoTriggerBranchProperty_strategy_all(), Integer.toString(ALL));
-            items.add(Messages.NoTriggerBranchProperty_strategy_indexing(), Integer.toString(INDEXING));
-            items.add(Messages.NoTriggerBranchProperty_strategy_events(), Integer.toString(EVENTS));
+            items.add(Messages.NoTriggerBranchProperty_strategy_all(), ALL);
+            items.add(Messages.NoTriggerBranchProperty_strategy_indexing(), INDEXING);
+            items.add(Messages.NoTriggerBranchProperty_strategy_events(), EVENTS);
             return items;
         }
     }
@@ -134,8 +134,8 @@ public class NoTriggerBranchProperty extends BranchProperty {
                                         for (BranchProperty prop : ((MultiBranchProject) j.getParent()).getProjectFactory().getBranch(j).getProperties()) {
                                             if (prop instanceof NoTriggerBranchProperty) {
                                                 NoTriggerBranchProperty triggerProperty = (NoTriggerBranchProperty) prop;
-                                                boolean suppressIndexing = triggerProperty.getStrategyId() != EVENTS;
-                                                boolean suppressEvents = triggerProperty.getStrategyId() != INDEXING;
+                                                boolean suppressIndexing = !EVENTS.equals(triggerProperty.getStrategyId());
+                                                boolean suppressEvents = !INDEXING.equals(triggerProperty.getStrategyId());
                                                 if ((indexingCause && suppressIndexing) || (eventCause && suppressEvents)) {
                                                     return false;
                                                 }
@@ -150,7 +150,5 @@ public class NoTriggerBranchProperty extends BranchProperty {
             }
             return true;
         }
-
     }
-
 }
