@@ -51,19 +51,19 @@ public class NoTriggerBranchProperty extends BranchProperty {
     /**
      * All builds triggered by SCM are suppressed.
      *
-     * @since 2.6.4
+     * @since 2.6.5
      */
     public static final String ALL = "all";
     /**
      * Only builds triggered by {@link BranchIndexingCause} are suppressed.
      *
-     * @since 2.6.4
+     * @since 2.6.5
      */
     public static final String INDEXING = "indexing";
     /**
      * Only builds triggered by {@link BranchEventCause} are suppressed.
      *
-     * @since 2.6.4
+     * @since 2.6.5
      */
     public static final String EVENTS = "events";
 
@@ -76,7 +76,7 @@ public class NoTriggerBranchProperty extends BranchProperty {
      * Gets the strategy id which determines which builds should be suppressed.
      *
      * @return the strategy id.
-     * @since 2.6.4
+     * @since 2.6.5
      */
     public String getStrategyId() {
         return strategyId;
